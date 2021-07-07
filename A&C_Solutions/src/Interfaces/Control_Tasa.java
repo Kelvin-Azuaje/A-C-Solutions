@@ -93,7 +93,7 @@ public class Control_Tasa extends javax.swing.JFrame {
                     break;
             }
         }catch (SQLException ex) {
-                Logger.getLogger(Bienvenida.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

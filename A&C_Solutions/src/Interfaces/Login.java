@@ -54,7 +54,7 @@ public class Login extends javax.swing.JFrame {
                 obj.setVisible(true);
                 dispose();
             }else if(captura.equals("CAJERO")){
-                DatosClienteFactura obj = new DatosClienteFactura();
+                DatosCliente_Factura obj = new DatosCliente_Factura();
                 obj.setVisible(true);
                 dispose();
             }else{
@@ -209,7 +209,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        CambioClave_Usuarios obj= new CambioClave_Usuarios();
+        Login_CambioClave_Usuarios obj= new Login_CambioClave_Usuarios();
         obj.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 

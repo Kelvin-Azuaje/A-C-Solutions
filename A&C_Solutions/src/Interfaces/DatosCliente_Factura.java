@@ -77,7 +77,7 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
                 DireCliente.requestFocus();
             }
         } catch (Exception ex) {
-            Logger.getLogger(Bienvenida.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
