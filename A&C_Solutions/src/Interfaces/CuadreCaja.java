@@ -10,16 +10,18 @@ import java.awt.event.KeyEvent;
 
 /**
  *
- * @author Argenis Gomez
+ * @author KELVIN AZUAJE
  */
 public class CuadreCaja extends javax.swing.JFrame {
 
+    private Conexion_LLenarCombo con = new Conexion_LLenarCombo();
     
     public CuadreCaja() {
         initComponents();
         setLocationRelativeTo(null);
         FECHA.setText(fecha());
         LlenarDiferencia();
+        this.Cbox_NCaja.setModel(con.Obt_Datos());
     }
 
     public void Guardar(){
@@ -400,7 +402,7 @@ public class CuadreCaja extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(FECHA, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(Cbox_NCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Cbox_NCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txt_Cajero, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))
