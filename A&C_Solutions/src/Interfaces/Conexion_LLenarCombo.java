@@ -25,6 +25,7 @@ public class Conexion_LLenarCombo {
     public String url = "jdbc:mysql://localhost/"+ bd;
     Connection con = null;
 
+    //Metodo para conectar con la Bd
     public Conexion_LLenarCombo() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -35,6 +36,7 @@ public class Conexion_LLenarCombo {
         }
     }
     
+    //Metodo para realizar la consulta en base a un ResultSet
     public ResultSet consul(String sql){
         ResultSet res = null;
         try {
@@ -46,19 +48,33 @@ public class Conexion_LLenarCombo {
         return res;
     }
     
-    //Metodo para obtener los datos 
-    public DefaultComboBoxModel Obt_Datos(){
-        DefaultComboBoxModel ListaPrueba = new DefaultComboBoxModel();
-        ListaPrueba.addElement("Seleccionar");
+    //Metodo para obtener los datos de cada caja
+    public DefaultComboBoxModel Obt_Datos_Caja(){
+        DefaultComboBoxModel ListaCaja = new DefaultComboBoxModel();
+        ListaCaja.addElement("Seleccionar");
         ResultSet res = this.consul("SELECT * FROM cr_caja ORDER BY ID_CAJA");
         
         try {
             while(res.next()){
-                ListaPrueba.addElement(res.getString("ID_CAJA"));
+                ListaCaja.addElement(res.getString("ID_CAJA"));
             } res.close();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
-        }
-        return ListaPrueba;
+        } return ListaCaja;
+    }
+    
+    //Metodo para obtener los datos de los Departamentos
+    public DefaultComboBoxModel Obt_Datos_Departamentos(){
+        DefaultComboBoxModel ListaDep = new DefaultComboBoxModel();
+        ListaDep.addElement("Seleccionar");
+        ResultSet res = this.consul("SELECT * FROM departamento ORDER BY COD_DEPARTAMENTO");
+        
+        try {
+            while(res.next()){
+                ListaDep.addElement(res.getString("COD_DEPARTAMENTO"));
+            } res.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } return ListaDep;
     }
 }
