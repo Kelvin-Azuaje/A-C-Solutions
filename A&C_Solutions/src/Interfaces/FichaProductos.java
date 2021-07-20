@@ -367,7 +367,7 @@ public class FichaProductos extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         txtModelo = new javax.swing.JTextField();
-        BoxTProducto = new javax.swing.JComboBox<>();
+        BoxTProducto = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -394,9 +394,9 @@ public class FichaProductos extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        BoxDepartamento = new javax.swing.JComboBox<>();
-        BoxGrupo = new javax.swing.JComboBox<>();
-        BoxSG = new javax.swing.JComboBox<>();
+        BoxDepartamento = new javax.swing.JComboBox<String>();
+        BoxGrupo = new javax.swing.JComboBox<String>();
+        BoxSG = new javax.swing.JComboBox<String>();
         btnDepartamento = new javax.swing.JButton();
         btnGrupo = new javax.swing.JButton();
         btnSG = new javax.swing.JButton();
@@ -430,6 +430,7 @@ public class FichaProductos extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 204), 3));
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 204));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Close_2.png"))); // NOI18N
         btnSalir.setContentAreaFilled(false);
@@ -482,21 +483,16 @@ public class FichaProductos extends javax.swing.JFrame {
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSalir)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel20))
-                    .addComponent(jButton8))
-                .addContainerGap())
+            .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -507,7 +503,7 @@ public class FichaProductos extends javax.swing.JFrame {
         txtModelo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         BoxTProducto.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        BoxTProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECCIONAR", "POR KG", "POR UNIDAD", "POR BULTO" }));
+        BoxTProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECCIONAR", "POR KG", "POR UNIDAD", "POR BULTO" }));
         BoxTProducto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -722,17 +718,17 @@ public class FichaProductos extends javax.swing.JFrame {
 
         BoxDepartamento.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         BoxDepartamento.setMaximumRowCount(20);
-        BoxDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        BoxDepartamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         BoxDepartamento.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         BoxGrupo.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         BoxGrupo.setMaximumRowCount(20);
-        BoxGrupo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        BoxGrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         BoxGrupo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         BoxSG.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         BoxSG.setMaximumRowCount(20);
-        BoxSG.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        BoxSG.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         BoxSG.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnDepartamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Refresh.png"))); // NOI18N
@@ -1001,8 +997,8 @@ public class FichaProductos extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
