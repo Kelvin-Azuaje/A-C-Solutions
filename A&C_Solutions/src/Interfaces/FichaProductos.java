@@ -176,21 +176,24 @@ public class FichaProductos extends javax.swing.JFrame {
         DecimalFormat df = new DecimalFormat("#.00", separadoresPersonalizados);
         String cost, util, impu, cad1, cad2, cad3;
         int ent1, ent2, ent3, ent4, ent5;
+        float num1, num2, num3, num4;
         
         cad1 = txtCosto1.getText();
         cad2 = txtUtilidad.getText();
         cad3 = txtIVA.getSelectedItem().toString();
         
+        num1 = Float.parseFloat(cad1);
+        num2 = Float.parseFloat(cad2);
+        num3 = Float.parseFloat(cad3);
         
-//        
-//        cad1 = txtCantidad.getText();
-//        cad2 = txtPrecio.getText();
-//        cad3 = txtIVA.getText();
-//        
-//        num1 = Float.parseFloat(cad1);
-//        num2 = Float.parseFloat(cad2);
-//        num3 = Float.parseFloat(cad3);
-//        //tasa = Float.parseFloat(ValorTasaDolar);
+//      CALCULO DEL IVA POR PRODUCTO
+        
+//        if(cad3.equals("Seleccionar")){
+//            JOptionPane.showMessageDialog(this, "Debe seleccionar el IVA", "ADVERTENCIA..!", JOptionPane.WARNING_MESSAGE);
+//        }else if(){
+//            
+//        }
+
 //        
 //        if(cad3.equals("0 || 0.00")){
 //            num4 = num1*num2;//tasa;
