@@ -63,9 +63,6 @@ public class FichaProductos extends javax.swing.JFrame {
             txtUnidad.setText("");
             txtUnidad.setEnabled(false);
         }
-        //        txtUnidad.setEnabled(true);
-//        txtBulto.setEnabled(true);
-//        txtKilo.setEnabled(true);
     }
     
     public void Deshabilitar(){
@@ -110,9 +107,6 @@ public class FichaProductos extends javax.swing.JFrame {
         BoxTProducto.setEnabled(true);
         btnProducto.setEnabled(true);
         btnProvee.setEnabled(true);
-//        txtUnidad.setEnabled(true);
-//        txtBulto.setEnabled(true);
-//        txtKilo.setEnabled(true);
         BoxDepartamento.setEnabled(true);
         BoxGrupo.setEnabled(true);
         BoxSG.setEnabled(true);
@@ -174,34 +168,37 @@ public class FichaProductos extends javax.swing.JFrame {
         DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
         separadoresPersonalizados.setDecimalSeparator('.');
         DecimalFormat df = new DecimalFormat("#.00", separadoresPersonalizados);
-        String cost, util, impu, cad1, cad2, cad3;
-        int ent1, ent2, ent3, ent4, ent5;
-        float num1, num2, num3, num4;
+        String cost, util, impu, ttpdv;
+        float numCosto, numUtil, numIva, TtIva=0, TtUtil, Pdv;
         
-        cad1 = txtCosto1.getText();
-        cad2 = txtUtilidad.getText();
-        cad3 = txtIVA.getSelectedItem().toString();
+        cost = txtCosto1.getText();
+        util = txtUtilidad.getText();
+        impu = txtIVA.getSelectedItem().toString();
         
-        num1 = Float.parseFloat(cad1);
-        num2 = Float.parseFloat(cad2);
-        num3 = Float.parseFloat(cad3);
+        numCosto = Float.parseFloat(cost);
+        numUtil = Float.parseFloat(util);
+        numIva = Float.parseFloat(impu);
         
 //      CALCULO DEL IVA POR PRODUCTO
         
-//        if(cad3.equals("Seleccionar")){
-//            JOptionPane.showMessageDialog(this, "Debe seleccionar el IVA", "ADVERTENCIA..!", JOptionPane.WARNING_MESSAGE);
-//        }else if(){
-//            
-//        }
+        if(impu.equals("16")){
+            TtIva = (numCosto*numIva)/100;
+        }else if(impu.equals("8")){
+            TtIva = (numCosto*numIva)/100;
+        }else if(impu.equals("0")){
+            TtIva = 0;
+        }
+        
+//      CALCCULO DE PORCENTAJE DE UTILIDAD
+        
+        TtUtil = (numCosto*numUtil)/100;
 
-//        
-//        if(cad3.equals("0 || 0.00")){
-//            num4 = num1*num2;//tasa;
-//        } else {
-//            num4 = num1*num2/**tasa*/+(((num2*num3)/100)*num1);/**tasa*/
-//        }
-//        
-//        cad4 = df.format(num4);
+//      CALCULO DEL PRECIO DE VENTA
+
+        Pdv = numCosto+TtUtil+TtIva;
+        ttpdv = df.format(Pdv);
+
+        txtPrecio.setText(ttpdv);
     }
     
     public void Guardar(){
@@ -233,18 +230,11 @@ public class FichaProductos extends javax.swing.JFrame {
         Precio = txtPrecio.getText();
         Utilidad = txtUtilidad.getText();
         IVA = txtIVA.getSelectedItem().toString();
-//        if(EditIva.isSelected()){
-//            txtIVA.setEnabled(false);
-//            txtIVA.setSelectedIndex(0);
-//            EXC = "0";
-//        }else{
-//            EXC = "";
-//        }
         
         String valores = " '000','"+Codigo+"','"+Nombre+"','"+Estado+"','"+Barra+"','"+Marca+"','"+Modelo+"','"+Proveedor+"',"
                 + "'"+TproductoK+"','"+TproductoU+"','"+TproductoB+"','"+CDepartamento+"','"+Departamento+"','"+CGrupo+"',"
                 + "'"+Grupo+"','"+CSubgrupo+"','"+Subgrupo+"','"+CostoAc+"','"+CostoAn+"','"+Diferencia+"','"+Precio+"',"
-                + "'"+Utilidad+"','"+IVA+"','"+EXC+"'";
+                + "'"+Utilidad+"','"+IVA+"'";
         cn.guardar("productos", valores);
     }
     
@@ -865,7 +855,7 @@ public class FichaProductos extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel11.setText("PRECIO DE VENTA");
+        jLabel11.setText("PRECIO");
 
         jLabel25.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel25.setText("COSTO");
@@ -906,7 +896,8 @@ public class FichaProductos extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel18.setText("I.V.A.");
 
-        txtIVA.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "16", "8", "0" }));
+        txtIVA.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        txtIVA.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "8", "16" }));
         txtIVA.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel17.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -936,11 +927,11 @@ public class FichaProductos extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(46, 46, 46)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel25))
-                .addGap(27, 27, 27)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel11))
+                .addGap(51, 51, 51)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtCosto1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -999,22 +990,17 @@ public class FichaProductos extends javax.swing.JFrame {
                         .addComponent(jLabel14)
                         .addComponent(jLabel18))
                     .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                        .addComponent(jLabel11)
-                        .addGap(26, 26, 26))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(EditIva, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtUtilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel15)
-                                .addComponent(txtIVA, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel17))
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(22, Short.MAX_VALUE))))
+                    .addComponent(EditIva, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtUtilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel15)
+                        .addComponent(txtIVA, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel17)
+                        .addComponent(jLabel11))
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
