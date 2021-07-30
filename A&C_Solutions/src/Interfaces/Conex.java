@@ -106,8 +106,43 @@ public class Conex {
         } catch (Exception e) {
         }
         return equi;
+    }  
+    
+    public TraerDepartamento getClaseTraerDepartamento(){
+        TraerDepartamento equi = null;
+        try {
+            resul = sentencia.executeQuery(query);
+            if(resul.next()){
+                equi = new TraerDepartamento(resul.getString("NOM_DEPARTAMENTO"));
+            }
+        } catch (Exception e) {
+        }
+        return equi;
     }
     
+    public TraerGrupos getClaseTraerGrupo(){
+        TraerGrupos equi = null;
+        try {
+            resul = sentencia.executeQuery(query);
+            if(resul.next()){
+                equi = new TraerGrupos(resul.getString("NOM_GRUPO"));
+            }
+        } catch (Exception e) {
+        }
+        return equi;
+    }
+    
+    public TraerSubGrupo getClaseTraerSubGrupo(){
+        TraerSubGrupo equi = null;
+        try {
+            resul = sentencia.executeQuery(query);
+            if(resul.next()){
+                equi = new TraerSubGrupo(resul.getString("NOM_SG"));
+            }
+        } catch (Exception e) {
+        }
+        return equi;
+    }
     public String getQuery() {
         return query;
     }

@@ -6,10 +6,14 @@
 package Interfaces;
 
 //import static Interfaces.Conexion_BD.resultado;
+import java.awt.HeadlessException;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.logging.*;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,6 +30,9 @@ public class FichaProductos extends javax.swing.JFrame {
     String CDepartamento, Departamento, CGrupo, Grupo, CSubgrupo, Subgrupo;
     String CostoAc, CostoAn, Diferencia, Precio, Utilidad, IVA, EXC;
     Conexion_BD cn;
+    Conexion cd = new Conexion();
+    Connection cc = cd.enlazar();
+    Conex conex = new Conex();
     
     public FichaProductos() {
         initComponents();
@@ -189,7 +196,7 @@ public class FichaProductos extends javax.swing.JFrame {
             TtIva = 0;
         }
         
-//      CALCCULO DE PORCENTAJE DE UTILIDAD
+//      CALCULO DE PORCENTAJE DE UTILIDAD
         
         TtUtil = (numCosto*numUtil)/100;
 
@@ -239,143 +246,64 @@ public class FichaProductos extends javax.swing.JFrame {
     }
     
     public void LlenarDepartamento(){
-        String TomarCodigo = BoxDepartamento.getSelectedItem().toString();
-        switch (TomarCodigo) {
-            case "0010":
-                txtDepartamento.setText("ELECTRODOMESTICOS");
-                BoxGrupo.removeAllItems();
-                BoxGrupo.addItem("1001");
-                BoxGrupo.addItem("1003");
-                break;
-            case "0012":
-                txtDepartamento.setText("BAÑO");
-                BoxGrupo.removeAllItems();
-                BoxGrupo.addItem("1201");
-                BoxGrupo.addItem("1203");
-                break;
-            case "0014":
-                txtDepartamento.setText("HOGAR");
-                BoxGrupo.removeAllItems();
-                BoxGrupo.addItem("1401");
-                BoxGrupo.addItem("1403");
-                break;
-            case "0016":
-                txtDepartamento.setText("MERCADO");
-                BoxGrupo.removeAllItems();
-                BoxGrupo.addItem("1601");
-                BoxGrupo.addItem("1603");
-                break;
-            default:
-                JOptionPane.showMessageDialog(this, "SELECCIONE UN CODIGO VALIDO", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                break;
+        String CoDeparta = BoxDepartamento.getSelectedItem().toString(), cap="";
+        String sql = "SELECT * FROM departamento WHERE COD_DEPARTAMENTO ='"+CoDeparta+"'";
+        try {
+            Statement st = cc.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                cap=rs.getString("COD_DEPARTAMENTO");
+            } if(cap.equals("")){
+                JOptionPane.showMessageDialog(this, "CODIGO INVALIDO","ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            }else if(cap.equals(CoDeparta)){
+                conex.setQuery("SELECT * FROM departamento WHERE COD_DEPARTAMENTO = '"+CoDeparta+"'");
+                TraerDepartamento equi = conex.getClaseTraerDepartamento();
+                txtDepartamento.setText(equi.getDesripcion());
+                this.BoxGrupo.setModel(con.Obt_Datos_Grupos());
+            }
+        } catch (HeadlessException | SQLException e) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
     public void LlenarGrupo(){
-        String TomarCodigo = BoxGrupo.getSelectedItem().toString();
-        switch (TomarCodigo) {
-            case "1001":
-                txtGrupo.setText(TomarCodigo);
-                BoxSG.removeAllItems();
-                BoxSG.addItem("100101");
-                BoxSG.addItem("100103");
-                break;
-            case "1003":
-                txtGrupo.setText(TomarCodigo);
-                BoxSG.removeAllItems();
-                BoxSG.addItem("100301");
-                BoxSG.addItem("100303");
-                break;
-            case "1201":
-                txtGrupo.setText(TomarCodigo);
-                BoxSG.removeAllItems();
-                BoxSG.addItem("120101");
-                BoxSG.addItem("120103");
-                break;
-            case "1203":
-                txtGrupo.setText(TomarCodigo);
-                BoxSG.removeAllItems();
-                BoxSG.addItem("120301");
-                BoxSG.addItem("120303");
-                break;
-            case "1401":
-                txtGrupo.setText(TomarCodigo);
-                BoxSG.removeAllItems();
-                BoxSG.addItem("140101");
-                BoxSG.addItem("140103");
-                break;
-            case "1403":
-                txtGrupo.setText(TomarCodigo);
-                BoxSG.removeAllItems();
-                BoxSG.addItem("140301");
-                BoxSG.addItem("140303");
-                break;
-            case "1601":
-                txtGrupo.setText(TomarCodigo);
-                BoxSG.removeAllItems();
-                BoxSG.addItem("160101");
-                BoxSG.addItem("160103");
-                break;
-            case "1603":
-                txtGrupo.setText(TomarCodigo);
-                BoxSG.removeAllItems();
-                BoxSG.addItem("160301");
-                BoxSG.addItem("160303");
-                break;
-            default:
-                JOptionPane.showMessageDialog(this, "SELECCIONE UN CODIGO VALIDO", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                break;
+        String CodGrupo = BoxGrupo.getSelectedItem().toString(), cap="";
+        String sql = "SELECT * FROM grupos WHERE COD_GRUPO ='"+CodGrupo+"'";
+        try {
+            Statement st = cc.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                cap=rs.getString("COD_GRUPO");
+            } if(cap.equals("")){
+                JOptionPane.showMessageDialog(this, "CODIGO INVALIDO","ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            }else if(cap.equals(CodGrupo)){
+                conex.setQuery("SELECT * FROM grupos WHERE COD_GRUPO = '"+CodGrupo+"'");
+                TraerGrupos equi = conex.getClaseTraerGrupo();
+                txtGrupo.setText(equi.getDesripcion());
+                this.BoxSG.setModel(con.Obt_Datos_SubGrupos());
+            }
+        } catch (HeadlessException | SQLException e) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
     public void LlenarSGrupo(){
-        String TomarSCodigo = BoxSG.getSelectedItem().toString();
-        switch (TomarSCodigo){
-            case "100101":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "100103":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "120101":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "120103":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "120301":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "120303":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "140101":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "140103":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "140301":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "140303":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "160101":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "160103":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "160301":
-                txtSG.setText(TomarSCodigo);
-                break;
-            case "160303":
-                txtSG.setText(TomarSCodigo);
-                break;
-            default:
-                JOptionPane.showMessageDialog(this, "SELECCIONE UN CODIGO VALIDO", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                break;
+        String CodSG = BoxSG.getSelectedItem().toString(), cap="";
+        String sql = "SELECT * FROM subgrupos WHERE COD_SG ='"+CodSG+"'";
+        try {
+            Statement st = cc.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                cap=rs.getString("COD_SG");
+            } if(cap.equals("")){
+                JOptionPane.showMessageDialog(this, "CODIGO INVALIDO","ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            }else if(cap.equals(CodSG)){
+                conex.setQuery("SELECT * FROM subgrupos WHERE COD_SG = '"+CodSG+"'");
+                TraerSubGrupo equi = conex.getClaseTraerSubGrupo();
+                txtSG.setText(equi.getDesripcion());
+            }
+        } catch (HeadlessException | SQLException e) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
@@ -1059,7 +987,7 @@ public class FichaProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductoActionPerformed
 
     private void btnProveeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveeActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnProveeActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed

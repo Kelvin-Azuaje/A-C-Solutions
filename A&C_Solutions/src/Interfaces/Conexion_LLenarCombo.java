@@ -25,7 +25,8 @@ public class Conexion_LLenarCombo {
     public String url = "jdbc:mysql://localhost/"+ bd;
     Connection con = null;
 
-    //Metodo para conectar con la Bd
+    
+//**************************************Metodo para conectar con la Bd***************************************************
     public Conexion_LLenarCombo() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -35,8 +36,9 @@ public class Conexion_LLenarCombo {
             Logger.getLogger(Conexion_LLenarCombo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+//********************************************************************************************************************************
     
-    //Metodo para realizar la consulta en base a un ResultSet
+//*************************Metodo para realizar la consulta en base a un ResultSet***********************************
     public ResultSet consul(String sql){
         ResultSet res = null;
         try {
@@ -47,8 +49,9 @@ public class Conexion_LLenarCombo {
         }
         return res;
     }
+//********************************************************************************************************************************
     
-    //Metodo para obtener los datos de cada caja
+//******************************Metodo para obtener los datos de cada caja*********************************************
     public DefaultComboBoxModel Obt_Datos_Caja(){
         DefaultComboBoxModel ListaCaja = new DefaultComboBoxModel();
         ListaCaja.addElement("Seleccionar");
@@ -62,8 +65,9 @@ public class Conexion_LLenarCombo {
             System.err.println(ex.getMessage());
         } return ListaCaja;
     }
+//********************************************************************************************************************************
     
-    //Metodo para obtener los datos de los Departamentos
+//**************************Metodo para obtener los datos de los Departamentos**************************************
     public DefaultComboBoxModel Obt_Datos_Departamentos(){
         DefaultComboBoxModel ListaDep = new DefaultComboBoxModel();
         ListaDep.addElement("Seleccionar");
@@ -77,4 +81,37 @@ public class Conexion_LLenarCombo {
             System.err.println(e.getMessage());
         } return ListaDep;
     }
+//**********************************************************************************************************************************
+    
+//************************************Metodo para obtener datos de Grupos************************************************    
+    public DefaultComboBoxModel Obt_Datos_Grupos(){
+        DefaultComboBoxModel ListaGrup = new DefaultComboBoxModel();
+        ListaGrup.addElement("Seleccionar");
+        ResultSet res = this.consul("SELECT * FROM grupos ORDER BY COD_GRUPO");
+        
+        try {
+            while(res.next()){
+                ListaGrup.addElement(res.getString("COD_GRUPO"));
+            } res.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } return ListaGrup;
+    }
+//********************************************************************************************************************************* 
+    
+//**********************************Metodo para obtener datos de  SubGrupos*********************************************    
+    public DefaultComboBoxModel Obt_Datos_SubGrupos(){
+        DefaultComboBoxModel ListaSubGrup = new DefaultComboBoxModel();
+        ListaSubGrup.addElement("Seleccionar");
+        ResultSet res = this.consul("SELECT * FROM subgrupos ORDER BY COD_SG");
+        
+        try {
+            while(res.next()){
+                ListaSubGrup.addElement(res.getString("COD_SG"));
+            } res.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } return ListaSubGrup;
+    }
+//*********************************************************************************************************************************     
 }
