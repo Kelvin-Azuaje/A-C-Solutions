@@ -37,7 +37,7 @@ public class Conexion_LLenarCombo {
         }
     }
 //********************************************************************************************************************************
-    
+//********************************************************************************************************************************    
 //*************************Metodo para realizar la consulta en base a un ResultSet***********************************
     public ResultSet consul(String sql){
         ResultSet res = null;
@@ -50,7 +50,7 @@ public class Conexion_LLenarCombo {
         return res;
     }
 //********************************************************************************************************************************
-    
+//********************************************************************************************************************************    
 //******************************Metodo para obtener los datos de cada caja*********************************************
     public DefaultComboBoxModel Obt_Datos_Caja(){
         DefaultComboBoxModel ListaCaja = new DefaultComboBoxModel();
@@ -66,7 +66,7 @@ public class Conexion_LLenarCombo {
         } return ListaCaja;
     }
 //********************************************************************************************************************************
-    
+//********************************************************************************************************************************    
 //**************************Metodo para obtener los datos de los Departamentos**************************************
     public DefaultComboBoxModel Obt_Datos_Departamentos(){
         DefaultComboBoxModel ListaDep = new DefaultComboBoxModel();
@@ -82,11 +82,10 @@ public class Conexion_LLenarCombo {
         } return ListaDep;
     }
 //**********************************************************************************************************************************
-    
+//**********************************************************************************************************************************    
 //************************************Metodo para obtener datos de Grupos************************************************    
     public DefaultComboBoxModel Obt_Datos_Grupos(){
         DefaultComboBoxModel ListaGrup = new DefaultComboBoxModel();
-        ListaGrup.addElement("Seleccionar");
         ResultSet res = this.consul("SELECT * FROM grupos ORDER BY COD_GRUPO");
         
         try {
@@ -98,11 +97,10 @@ public class Conexion_LLenarCombo {
         } return ListaGrup;
     }
 //********************************************************************************************************************************* 
-    
+//**********************************************************************************************************************************    
 //**********************************Metodo para obtener datos de  SubGrupos*********************************************    
     public DefaultComboBoxModel Obt_Datos_SubGrupos(){
         DefaultComboBoxModel ListaSubGrup = new DefaultComboBoxModel();
-        ListaSubGrup.addElement("Seleccionar");
         ResultSet res = this.consul("SELECT * FROM subgrupos ORDER BY COD_SG");
         
         try {
