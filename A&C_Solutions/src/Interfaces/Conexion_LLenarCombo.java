@@ -112,4 +112,20 @@ public class Conexion_LLenarCombo {
         } return ListaSubGrup;
     }
 //*********************************************************************************************************************************     
+//*********************************************************************************************************************************
+//******************************** Metodo para obtener Datos de los Bancos**********************************************
+    public DefaultComboBoxModel Obt_DatosBancos(){
+        DefaultComboBoxModel ListaBancos = new DefaultComboBoxModel();
+        ListaBancos.addElement("");
+        ResultSet res = this.consul("SELECT * FROM bancos ORDER BY COD_BANCO");
+        
+        try {
+            while(res.next()){
+                ListaBancos.addElement(res.getString("COD_BANCO"));
+            } res.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        } return ListaBancos;
+    }
+//********************************************************************************************************************************    
 }

@@ -7,6 +7,11 @@ package Interfaces;
 
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,22 +22,28 @@ import javax.swing.table.DefaultTableModel;
 public class AddPagoM extends javax.swing.JFrame {
 
     DefaultTableModel modelo1 = new DefaultTableModel();
+    private Conexion_LLenarCombo con = new Conexion_LLenarCombo();
+    Conexion cd = new Conexion();
+    Connection cc = cd.enlazar();
+    Conex conex = new Conex();
     
     public AddPagoM() {
         initComponents();
         setLocationRelativeTo(null);
+        CodBanco.requestFocus();
         modelo1 = new DefaultTableModel();
         modelo1.addColumn("COD BANCO");
         modelo1.addColumn("BANCO");
         modelo1.addColumn("REFERENCIA");
         modelo1.addColumn("MONTO");
         this.TablaRecaudo.setModel(modelo1);
-        CodBanco.requestFocus();
+        this.CodBanco.setModel(con.Obt_DatosBancos());
     }
 
     public void PasarDatosCampos() {
+        String codb = CodBanco.getSelectedItem().toString();
         String[] dt = new String[4];
-        dt[0] = CodBanco.getText();
+        dt[0] = codb;
         dt[1] = Banco.getText();
         dt[2] = NReferencia.getText();
         dt[3] = Tt1.getText();
@@ -43,78 +54,29 @@ public class AddPagoM extends javax.swing.JFrame {
     public void Limpiar() {
         NReferencia.setText("");
         Tt1.setText("");
-        CodBanco.setText("");
+        CodBanco.setSelectedIndex(0);
         Banco.setText("");
     }
 
-    public void Cod_Bancos() {
-        String dat = CodBanco.getText();
-        if(dat.equals("")){
-            JOptionPane.showMessageDialog(this, "Debe ingresar el codigo del Banco", "ADVERTENCIA..!", JOptionPane.WARNING_MESSAGE);
-            CodBanco.setText("");
-        }else if(dat.equals("0102")){
-            Banco.setText("BANCO DE VENEZUELA S.A.C.A");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0104")){
-            Banco.setText("VENEZOLANO DE CREDITO");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0105")){
-            Banco.setText("BANCO MERCANTIL");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0108")){
-            Banco.setText("BANCO PROVINCIAL");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0114")){
-            Banco.setText("BANCARIBE");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0115")){
-            Banco.setText("BANCO EXTERIOR");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0116")){
-            Banco.setText("BANCO OCCIDENTAL DE DESCUENTO");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0128")){
-            Banco.setText("BANCO CARONI");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0134")){
-            Banco.setText("BANCO BANESCO");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0138")){
-            Banco.setText("BANCO PLAZA");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0151")){
-            Banco.setText("BANCO FONDO COMUN BFC");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0156")){
-            Banco.setText("100% BANCO");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0157")){
-            Banco.setText("BANCO EL SUR");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0163")){
-            Banco.setText("BANCO DEL TESORO");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0166")){
-            Banco.setText("BANCO AGRICOLA DE VENEZUELA");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0172")){
-            Banco.setText("BANCAMIGA");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0174")){
-            Banco.setText("BANPLUS");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0175")){
-            Banco.setText("BANCO BICENTENARIO");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0176")){
-            Banco.setText("BANFANB");
-            NReferencia.requestFocus();
-        }else if(dat.equals("0191")){
-            Banco.setText("BNC BANCO NACIONAL DE CREDITO");
-            NReferencia.requestFocus();
-        }else{
-            JOptionPane.showMessageDialog(this, "CODIGO INCORRECTO..!", "ADVERTENCIA..!", JOptionPane.WARNING_MESSAGE);
-            CodBanco.setText("");
+    public void LlenarBanco(){
+        String Codbanco = this.CodBanco.getSelectedItem().toString(), cap="";
+        String sql = "SELECT * FROM bancos WHERE COD_BANCO ='"+Codbanco+"'";
+        try {
+            Statement st = cc.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                cap = rs.getString("COD_BANCO");
+            }
+            if(cap.equals("")){
+               JOptionPane.showMessageDialog(this, "DEBE SELECCIONAR UN BANCO..!","ADVERTENCIA", JOptionPane.WARNING_MESSAGE); 
+            }else if(cap.equals(Codbanco)){
+                conex.setQuery("SELECT * FROM bancos WHERE COD_BANCO = '"+Codbanco+"'");
+                TraerBancos equi = conex.getClaseTraerBancos();
+                Banco.setText(equi.getDescripcion());
+                NReferencia.requestFocus();
+            }          
+        } catch (SQLException e) {
+            Logger.getLogger(sql);
         }
     }
 
@@ -149,7 +111,6 @@ public class AddPagoM extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        CodBanco = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         Banco = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -162,6 +123,7 @@ public class AddPagoM extends javax.swing.JFrame {
         totalReca = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaRecaudo = new javax.swing.JTable();
+        CodBanco = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -206,15 +168,6 @@ public class AddPagoM extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         jLabel4.setText("COD BANCO:");
-
-        CodBanco.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
-        CodBanco.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        CodBanco.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        CodBanco.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                CodBancoKeyPressed(evt);
-            }
-        });
 
         jLabel5.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         jLabel5.setText("BANCO:");
@@ -294,6 +247,13 @@ public class AddPagoM extends javax.swing.JFrame {
         TablaRecaudo.setGridColor(new java.awt.Color(0, 51, 255));
         jScrollPane1.setViewportView(TablaRecaudo);
 
+        CodBanco.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        CodBanco.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CodBancoKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -321,9 +281,9 @@ public class AddPagoM extends javax.swing.JFrame {
                                 .addGap(112, 112, 112))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CodBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CodBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(Banco, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -342,11 +302,12 @@ public class AddPagoM extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(CodBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(Banco, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel5)
+                        .addComponent(Banco, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CodBanco))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -359,7 +320,7 @@ public class AddPagoM extends javax.swing.JFrame {
                     .addComponent(jButton5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(totalReca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -385,12 +346,6 @@ public class AddPagoM extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void CodBancoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CodBancoKeyPressed
-        if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
-            Cod_Bancos();
-        }
-    }//GEN-LAST:event_CodBancoKeyPressed
 
     private void BancoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BancoKeyPressed
         // TODO add your handling code here:
@@ -419,6 +374,12 @@ public class AddPagoM extends javax.swing.JFrame {
         EliminarProducto();
         CodBanco.requestFocus();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void CodBancoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CodBancoKeyPressed
+        if(evt.getKeyChar() == KeyEvent.VK_ENTER){
+            LlenarBanco();
+        }
+    }//GEN-LAST:event_CodBancoKeyPressed
 
     /**
      * @param args the command line arguments
@@ -460,7 +421,7 @@ public class AddPagoM extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Banco;
-    private javax.swing.JTextField CodBanco;
+    private javax.swing.JComboBox<String> CodBanco;
     private javax.swing.JTextField NReferencia;
     private javax.swing.JTable TablaRecaudo;
     private javax.swing.JTextField TotalReca;

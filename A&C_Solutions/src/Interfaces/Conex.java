@@ -143,6 +143,19 @@ public class Conex {
         }
         return equi;
     }
+    
+    public TraerBancos getClaseTraerBancos(){
+        TraerBancos equi = null;
+        try {
+            resul = sentencia.executeQuery(query);
+            if(resul.next()){
+                equi = new TraerBancos(resul.getString("DESCRIPCION"));
+            }
+        } catch (Exception e) {
+        }
+        return equi;
+    }
+    
     public String getQuery() {
         return query;
     }
