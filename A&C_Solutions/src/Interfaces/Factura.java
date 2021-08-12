@@ -1,6 +1,10 @@
 // < >
 package Interfaces;
 
+import Clases.TraerDatosEmpresa;
+import Clases.ProductosFactura;
+import Clases.Conexion;
+import Clases.Conex;
 import static Interfaces.Fecha.fecha;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;

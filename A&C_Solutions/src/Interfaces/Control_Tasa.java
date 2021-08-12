@@ -5,7 +5,11 @@
  */
 package Interfaces;
 
-import static Interfaces.Conexion_BD.conexion;
+import Clases.Conexion_BD;
+import Clases.Conexion;
+import Clases.Conex;
+import Clases.TraerTasa;
+import static Clases.Conexion_BD.*;
 import static Interfaces.Fecha.fecha;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -5,6 +5,9 @@
  */
 package Interfaces;
 
+import Clases.Conexion;
+import Clases.Conex;
+import Clases.TraerDatosClientes;
 import com.sun.glass.events.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;

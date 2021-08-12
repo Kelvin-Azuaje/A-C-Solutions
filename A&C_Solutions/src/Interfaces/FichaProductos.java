@@ -6,6 +6,7 @@
 package Interfaces;
 
 //import static Interfaces.Conexion_BD.resultado;
+import Clases.*;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;

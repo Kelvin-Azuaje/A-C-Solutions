@@ -5,6 +5,10 @@
  */
 package Interfaces;
 
+import Clases.TraerBancos;
+import Clases.Conexion_LLenarCombo;
+import Clases.Conexion;
+import Clases.Conex;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.sql.Connection;

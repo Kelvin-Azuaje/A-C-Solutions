@@ -5,7 +5,11 @@
  */
 package Interfaces;
 
-import static Interfaces.Conexion_BD.conexion;
+import Clases.Conexion;
+import Clases.TraerUsuario;
+import Clases.TextPrompt;
+import Clases.Conex;
+import static Clases.Conexion_BD.conexion;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
