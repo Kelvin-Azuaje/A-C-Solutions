@@ -6,7 +6,7 @@
 package Interfaces;
 
 import Clases.Conexion_LLenarCombo;
-import static Interfaces.Fecha.fecha;
+import static Clases.Fecha.fecha;
 import java.awt.event.KeyEvent;
 
 /**

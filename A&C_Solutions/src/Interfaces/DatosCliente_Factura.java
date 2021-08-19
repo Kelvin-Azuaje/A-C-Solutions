@@ -273,8 +273,6 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Factura obj = new Factura();
-        obj.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -346,11 +344,11 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField CodCliente;
-    private javax.swing.JTextField DireCliente;
-    private javax.swing.JTextField NomCliente;
-    private javax.swing.JTextField RifCliente;
-    private javax.swing.JFormattedTextField TelCliente;
+    public static javax.swing.JTextField CodCliente;
+    public static javax.swing.JTextField DireCliente;
+    public static javax.swing.JTextField NomCliente;
+    public static javax.swing.JTextField RifCliente;
+    public static javax.swing.JFormattedTextField TelCliente;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

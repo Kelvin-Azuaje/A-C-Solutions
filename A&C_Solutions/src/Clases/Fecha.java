@@ -7,7 +7,7 @@
 *    solo haciendo el uso correcto de la declaracion del metodo
 *
 */
-package Interfaces;
+package Clases;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;

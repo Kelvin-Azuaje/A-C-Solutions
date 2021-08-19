@@ -5,7 +5,7 @@ import Clases.TraerDatosEmpresa;
 import Clases.ProductosFactura;
 import Clases.Conexion;
 import Clases.Conex;
-import static Interfaces.Fecha.fecha;
+import static Clases.Fecha.fecha;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
@@ -208,6 +208,25 @@ public class Factura extends javax.swing.JFrame {
         }else if (opcion == JOptionPane.NO_OPTION){
             
         }
+    }
+    
+    public void DatosClienteActual(){
+        String cod, rif, nom, tel, dir;
+        cod = CodClienteFact.getText();
+        rif = RifClientFact.getText();
+        nom = NombreClientFact.getText();
+        tel = TelefonoClientFact.getText();
+        dir = DirecClienteFact.getText();
+        
+        DatosCliente_Factura obj = new DatosCliente_Factura();
+        obj.setVisible(true);
+        dispose();
+        
+        DatosCliente_Factura.CodCliente.setText(cod);
+        DatosCliente_Factura.RifCliente.setText(rif);
+        DatosCliente_Factura.NomCliente.setText(nom);
+        DatosCliente_Factura.TelCliente.setText(tel);
+        DatosCliente_Factura.DireCliente.setText(dir);
     }
     
     @SuppressWarnings("unchecked")
@@ -806,6 +825,8 @@ public class Factura extends javax.swing.JFrame {
             case KeyEvent.VK_F10:
                 EliminarFactura();
                 break;
+            case KeyEvent.VK_F12:
+                DatosClienteActual();
             default:
                 break;
         }
