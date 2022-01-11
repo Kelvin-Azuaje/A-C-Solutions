@@ -85,6 +85,18 @@ public class Conex {
         return equi;
     }
     
+    public TraerNumFactura getClaseTraerNumFactura(){
+        TraerNumFactura equi = null;
+        try {
+            resul = sentencia.executeQuery(query);
+            if(resul.next()){
+                equi = new TraerNumFactura(resul.getString("COD_FACTURA"));
+            }
+        } catch (Exception e) {
+        }
+        return equi;
+    }
+    
     public TraerDatosEmpresa getClaseTraerDatosEmpresa(){
         TraerDatosEmpresa equi = null;
         try {
@@ -156,6 +168,7 @@ public class Conex {
         }
         return equi;
     }
+    
     
     public String getQuery() {
         return query;
