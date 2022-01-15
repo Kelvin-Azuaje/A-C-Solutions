@@ -11,6 +11,7 @@ import Clases.TraerDatosClientes;
 import com.sun.glass.events.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 import java.util.logging.Level;
@@ -33,8 +34,8 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
         initComponents();
         RifCliente.requestFocus();
         setLocationRelativeTo(null);
-        Factura obj = new Factura();
-        obj.setVisible(true);
+//        Factura obj = new Factura();
+//        obj.setVisible(true);
     }
     
     public void PasarDatosFactura(){
@@ -53,11 +54,16 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
     
     public void N_AleatorioClie(){
         Random generadorAleatorios = new Random();
-        int numeroAleatorio = 1+generadorAleatorios.nextInt(99999);
+        int numeroAleatorio = 1+generadorAleatorios.nextInt(9999999);
         String aleatorio = Integer.toString(numeroAleatorio);
-        CodCliente.setText("000"+aleatorio);
+        CodCliente.setText(aleatorio);
     }
     
+    public void Limpiar(){
+        NomCliente.setText("");
+        TelCliente.setText("");
+        DireCliente.setText("");
+    }
     public void TraerCliente(){
         String TomarRif = RifCliente.getText(), captura="";
         String sql = "select * from clientes where RIF_CLIENTE = '"+TomarRif+"'";
@@ -69,6 +75,7 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
             }
             if(captura.equals("")){
                 N_AleatorioClie();
+                Limpiar();
                 NomCliente.requestFocus();
             }else if(captura.equals(TomarRif)){
                 conex.setQuery("select * from clientes where RIF_CLIENTE = '"+TomarRif+"'");   
@@ -79,7 +86,7 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
                 DireCliente.setText(equi.getDireccion());
                 DireCliente.requestFocus();
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -172,7 +179,7 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
 
         TelCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         try {
-            TelCliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#### - ### ####")));
+            TelCliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#### - #######")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }

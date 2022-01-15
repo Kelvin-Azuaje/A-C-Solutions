@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.*;
 import java.util.Calendar;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -37,10 +36,9 @@ public class Factura extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         FECHA1.setText("FECHA:  "+fecha());
         Calendar cal = Calendar.getInstance();
-        String hora;
-        hora = "HORA:   "+cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
-        this.HORA.setText(hora);
-        N_AleatorioFact();
+        String Hora = "HORA:   "+cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
+        this.HORA.setText(Hora);
+        Num_Factura();
         txtCodigo.requestFocus();
         TraerDatosEmpresa();
         modelo1 = new DefaultTableModel();
@@ -56,11 +54,25 @@ public class Factura extends javax.swing.JFrame {
 //*********************************************       DECLARACION DE FUNCIONES    **************************************
 //******************************************************************************************************************************
     
-    public void N_AleatorioFact(){
-        Random generadorAleatorios = new Random();
-        int numeroAleatorio = 1+generadorAleatorios.nextInt(99999);
-        String aleatorio = Integer.toString(numeroAleatorio);
-        Nfactura.setText("000"+aleatorio);
+    public final void Num_Factura(){ //LISTA//
+        String correlativo;
+        String sql = "SELECT * FROM facturas";
+        try {
+            Statement st = cc.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                correlativo = rs.getString("COD_FACTURA");
+                String txtresul;
+                int ent1, resul;
+        
+                ent1 = Integer.parseInt(correlativo);
+                resul = ent1 + 1;
+                txtresul = Integer.toString(resul);
+        
+                Nfactura.setText("000"+txtresul);
+            }
+        } catch (SQLException e) {
+        }
     }
     
     //    public void GuardarCliente(){
@@ -74,32 +86,33 @@ public class Factura extends javax.swing.JFrame {
 //        cn.guardar("clientes", valores);
 //    }
     
-    public void LlenarCampos(){
-        String CodProducto = txtCodigo.getText(), captura="";
-        String sql = "SELECT * FROM productos WHERE COD_BARRA = '"+CodProducto+"'";
+    public void LlenarCampos(){ //LISTO//
+        String CodProducto = txtCodigo.getText(), cap="", cap1="";
+        String sql = "SELECT * FROM productos WHERE COD_BARRA = '"+CodProducto+"' || COD_MAESTRO = '"+CodProducto+"'";
         try {
             Statement st = cc.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while(rs.next()){
-                captura = rs.getString("COD_BARRA");
+                cap = rs.getString("COD_BARRA");
+                cap1 = rs.getString("COD_MAESTRO");
             }
-            if(captura.equals("")){
+            if(cap.equals("") && cap1.equals("")){
                 JOptionPane.showMessageDialog(null, "EL CODIGO NO EXISTE EN EL INVENTARIO", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                 txtCodigo.setText("");
-            }else if(captura.equals(CodProducto)){
-                conex.setQuery("SELECT * FROM productos WHERE COD_BARRA = '"+CodProducto+"'");
+            }else if(cap.equals(CodProducto) || cap1.equals(CodProducto)){
+                conex.setQuery("SELECT * FROM productos WHERE COD_BARRA = '"+CodProducto+"' || COD_MAESTRO = '"+CodProducto+"'");
                 ProductosFactura equi = conex.getClaseProductosFactura();
                 txtNombreProd.setText(equi.getNombre());
                 txtPrecio.setText(equi.getPrecio());
                 txtIVA.setText(equi.getIva());
-                txtCantidad.requestFocus();
+                PasarDatosCampos();
             }
         } catch (SQLException | HeadlessException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void PasarDatosCampos(){
+    public void PasarDatosCampos(){ // MODIFICAR
         String []dt = new String[5];
         String stt = txtTotalProd.getText();
         dt[0] = txtCodigo.getText();
@@ -109,9 +122,10 @@ public class Factura extends javax.swing.JFrame {
         dt[4] = stt;
         modelo1.addRow(dt);
         SumarColumnas();
+        LimpiarCampos();
     }
     
-    public void SumarColumnas(){
+    public void SumarColumnas(){ //CHEQUEAR QUE FUNCIONE BIEN
         double suma = 0, total = 0; 
         int tamFila = TablaFactura.getRowCount();
         for (int i = 0; i < tamFila; i++) {
@@ -126,7 +140,7 @@ public class Factura extends javax.swing.JFrame {
     public void SumarTotalxProd(){        
     }
     
-    public void MultiplicarCantxPrecio(){
+    public void MultiplicarCantxPrecio(){ // CHEQUEAR QUE FUNCIONE BIEN
 //        // SE LLAMA AL VALOR DE LA TASA
 //        String ValorTasaDolar="";
 //        String cap = "", Ttasa = "Dolar";
@@ -169,14 +183,14 @@ public class Factura extends javax.swing.JFrame {
         txtTotalProd.setText(cad4);
     }
     
-    public void TraerDatosEmpresa(){
+    public final void TraerDatosEmpresa(){ // LISTA
         conex.setQuery("SELECT * FROM d_empresa");
         TraerDatosEmpresa equi = conex.getClaseTraerDatosEmpresa();
         Nombre_Empresa.setText(equi.getNombre());
         Rif_Empresa.setText(equi.getRif());
     }
     
-    public void EliminarProducto(){
+    public void EliminarProducto(){ // CHEQUEAR POR POSIBLE MODIFICACION
         int fila = TablaFactura.getSelectedRow();
         if(fila >= 0){
             modelo1.removeRow(fila);
@@ -186,7 +200,7 @@ public class Factura extends javax.swing.JFrame {
         SumarColumnas();
     }
     
-    public void EliminarFactura(){
+    public void EliminarFactura(){ //LISTO
         int opcion = JOptionPane.showConfirmDialog(this, "¿QUIERE ELIMNAR TODA LA FACTURA?", "ADVERTENCIA", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         
         if(opcion == JOptionPane.YES_OPTION){
@@ -210,7 +224,7 @@ public class Factura extends javax.swing.JFrame {
         }
     }
     
-    public void DatosClienteActual(){
+    public void DatosClienteActual(){ //LISTA
         String cod, rif, nom, tel, dir;
         cod = CodClienteFact.getText();
         rif = RifClientFact.getText();
@@ -218,15 +232,33 @@ public class Factura extends javax.swing.JFrame {
         tel = TelefonoClientFact.getText();
         dir = DirecClienteFact.getText();
         
-        DatosCliente_Factura obj = new DatosCliente_Factura();
-        obj.setVisible(true);
-        dispose();
+        if(dir.equals("*") || cod.equals("*") || rif.equals("*") || nom.equals("*") || tel.equals("*")){
+            DatosCliente_Factura obj = new DatosCliente_Factura();
+            obj.setVisible(true);
+        }else{
+            DatosCliente_Factura obj = new DatosCliente_Factura();
+            obj.setVisible(true);
         
-        DatosCliente_Factura.CodCliente.setText(cod);
-        DatosCliente_Factura.RifCliente.setText(rif);
-        DatosCliente_Factura.NomCliente.setText(nom);
-        DatosCliente_Factura.TelCliente.setText(tel);
-        DatosCliente_Factura.DireCliente.setText(dir);
+            DatosCliente_Factura.CodCliente.setText(cod);
+            DatosCliente_Factura.RifCliente.setText(rif);
+            DatosCliente_Factura.NomCliente.setText(nom);
+            DatosCliente_Factura.TelCliente.setText(tel);
+            DatosCliente_Factura.DireCliente.setText(dir);
+        }   
+    }
+    
+    public void AgregarCantidad(){ //LISTA
+        CantidadProd obj = new CantidadProd();
+        obj.setVisible(true);
+    }
+    
+    public void LimpiarCampos(){ //LISTA
+        txtCantidad.setText("1");
+        txtCodigo.setText("");
+        txtNombreProd.setText("");
+        txtPrecio.setText("0.00");
+        txtTotalProd.setText("0.00");
+        txtIVA.setText("0.00");
     }
     
     @SuppressWarnings("unchecked")
@@ -358,7 +390,7 @@ public class Factura extends javax.swing.JFrame {
         Nfactura.setBackground(new java.awt.Color(204, 255, 255));
         Nfactura.setFont(new java.awt.Font("Arial Black", 1, 16)); // NOI18N
         Nfactura.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        Nfactura.setText("000000000000");
+        Nfactura.setText("000");
 
         jLabel1.setBackground(new java.awt.Color(204, 255, 255));
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
@@ -413,7 +445,7 @@ public class Factura extends javax.swing.JFrame {
                     .addComponent(DirecClienteFact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(CodClienteFact, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
                         .addComponent(Nfactura))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -513,7 +545,6 @@ public class Factura extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -523,12 +554,16 @@ public class Factura extends javax.swing.JFrame {
                             .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
                             .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(TotalAPagar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(86, 86, 86))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -811,6 +846,7 @@ public class Factura extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyPressed
+        // AUN NO TERMINADA PERO TODO FUNCIONA BIEN
         switch (evt.getExtendedKeyCode()) {
             case KeyEvent.VK_ENTER:
                 LlenarCampos();
@@ -824,6 +860,9 @@ public class Factura extends javax.swing.JFrame {
                 break;
             case KeyEvent.VK_F10:
                 EliminarFactura();
+                break;
+            case KeyEvent.VK_F5:
+                AgregarCantidad();
                 break;
             case KeyEvent.VK_F12:
                 DatosClienteActual();
@@ -856,12 +895,7 @@ public class Factura extends javax.swing.JFrame {
             PasarDatosCampos();
             LlenarCampos();
             //LLenarFactura();
-            txtCantidad.setText("1");
-            txtCodigo.setText("");
-            txtNombreProd.setText("");
-            txtPrecio.setText("0.00");
-            txtTotalProd.setText("0.00");
-            txtIVA.setText("0.00");
+            LimpiarCampos();
         }
         txtCodigo.requestFocus();
     }//GEN-LAST:event_btnAgregarKeyPressed
@@ -976,7 +1010,7 @@ public class Factura extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField txtCantidad;
+    public static javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtIVA;
     private javax.swing.JTextField txtNombreProd;

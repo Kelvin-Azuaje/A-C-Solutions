@@ -5,7 +5,6 @@
  */
 package Clases;
 
-import Clases.TraerDepartamento;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -85,18 +84,6 @@ public class Conex {
         return equi;
     }
     
-    public TraerNumFactura getClaseTraerNumFactura(){
-        TraerNumFactura equi = null;
-        try {
-            resul = sentencia.executeQuery(query);
-            if(resul.next()){
-                equi = new TraerNumFactura(resul.getString("COD_FACTURA"));
-            }
-        } catch (Exception e) {
-        }
-        return equi;
-    }
-    
     public TraerDatosEmpresa getClaseTraerDatosEmpresa(){
         TraerDatosEmpresa equi = null;
         try {
@@ -104,7 +91,7 @@ public class Conex {
             if(resul.next()){
                 equi = new TraerDatosEmpresa(resul.getString("RIF_EMPRESA"), resul.getString("NOM_EMPRESA"), resul.getString("DIR_EMPRESA"), resul.getString("TEL_EMPRESA"));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return equi;
     }
@@ -116,7 +103,7 @@ public class Conex {
             if(resul.next()){
                 equi = new TraerTasa(resul.getString("COD_MONEDA"), resul.getString("TASA_ACTUAL"));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return equi;
     }  
@@ -128,7 +115,7 @@ public class Conex {
             if(resul.next()){
                 equi = new TraerDepartamento(resul.getString("NOM_DEPARTAMENTO"));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return equi;
     }
@@ -140,7 +127,7 @@ public class Conex {
             if(resul.next()){
                 equi = new TraerGrupos(resul.getString("NOM_GRUPO"));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return equi;
     }
@@ -152,7 +139,7 @@ public class Conex {
             if(resul.next()){
                 equi = new TraerSubGrupo(resul.getString("NOM_SG"));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return equi;
     }
@@ -164,7 +151,7 @@ public class Conex {
             if(resul.next()){
                 equi = new TraerBancos(resul.getString("DESCRIPCION"));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return equi;
     }

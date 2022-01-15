@@ -6,7 +6,6 @@ import Clases.ProductosFactura;
 import Clases.Conexion;
 import Clases.Conex;
 import static Clases.Fecha.fecha;
-import Clases.TraerNumFactura;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
@@ -59,40 +58,42 @@ public class FacturaPrueba extends javax.swing.JFrame {
     }
     
     public void LlenarCampos(){/*modificar*/
-//        String CodProducto = txtCodigo.getText(), captura="";
-//        String sql = "SELECT * FROM productos WHERE COD_BARRA = '"+CodProducto+"'";
-//        try {
-//            Statement st = cc.createStatement();
-//            ResultSet rs = st.executeQuery(sql);
-//            while(rs.next()){
-//                captura = rs.getString("COD_BARRA");
-//            }
-//            if(captura.equals("")){
-//                JOptionPane.showMessageDialog(null, "EL CODIGO NO EXISTE EN EL INVENTARIO", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-//                txtCodigo.setText("");
-//            }else if(captura.equals(CodProducto)){
-//                conex.setQuery("SELECT * FROM productos WHERE COD_BARRA = '"+CodProducto+"'");
-//                ProductosFactura equi = conex.getClaseProductosFactura();
-//                txtNombreProd.setText(equi.getNombre());
-//                txtPrecio.setText(equi.getPrecio());
-//                txtIVA.setText(equi.getIva());
-//                txtCantidad.requestFocus();
-//            }
-//        } catch (SQLException | HeadlessException ex) {
-//            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        String CodProducto = txtCodigo.getText(), captura="";
+        String sql = "SELECT * FROM productos WHERE COD_BARRA = '"+CodProducto+"'";
+        try {
+            Statement st = cc.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                captura = rs.getString("COD_BARRA");
+            }
+            if(captura.equals("")){
+                JOptionPane.showMessageDialog(null, "EL CODIGO NO EXISTE EN EL INVENTARIO", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                txtCodigo.setText("");
+            }else if(captura.equals(CodProducto)){
+                conex.setQuery("SELECT * FROM productos WHERE COD_BARRA = '"+CodProducto+"'");
+                ProductosFactura equi = conex.getClaseProductosFactura();
+                String NombreProd = equi.getNombre();
+                String Precio = equi.getPrecio();
+                String IVA = equi.getIva();
+                String Cantidad = "1";
+                
+                String []dt = new String[5];
+                String stt = "1";
+                dt[0] = txtCodigo.getText();
+                dt[1] = NombreProd;
+                dt[2] = Cantidad;
+                dt[3] = Precio;
+                dt[4] = stt;
+                modelo1.addRow(dt);
+                SumarColumnas();
+            }
+        } catch (SQLException | HeadlessException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void PasarDatosCampos(){/*modificar*/
-//        String []dt = new String[5];
-//        String stt = txtTotalProd.getText();
-//        dt[0] = txtCodigo.getText();
-//        dt[1] = txtNombreProd.getText();
-//        dt[2] = txtCantidad.getText();
-//        dt[3] = txtPrecio.getText();
-//        dt[4] = stt;
-//        modelo1.addRow(dt);
-//        SumarColumnas();
+        
     }
     
     public void SumarColumnas(){
@@ -108,26 +109,24 @@ public class FacturaPrueba extends javax.swing.JFrame {
     }
     
     public void N_AleatorioFact(){/*modificar*/
+        String correlativo;
+        String sql = "SELECT * FROM facturas";
+        try {
+            Statement st = cc.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                correlativo = rs.getString("COD_FACTURA");
+                String txtresul;
+                int ent1, resul;
         
-        conex.setQuery("SELECT * FROM facturas");
-        TraerNumFactura equi = conex.getClaseTraerNumFactura();
-        String correlativo = equi.getCod_Factura();
+                ent1 = Integer.parseInt(correlativo);
+                resul = ent1 + 1;
+                txtresul = Integer.toString(resul);
         
-        String txtresul;
-        int ent1, resul;
-        
-        ent1 = Integer.parseInt(correlativo);
-        resul = ent1 + 1;
-        txtresul = Integer.toString(resul);
-        
-        Nfactura.setText(txtresul);
-//        Nombre_Empresa.setText(equi.getNombre());
-//        Rif_Empresa.setText(equi.getRif());
-        
-        /*Random generadorAleatorios = new Random();
-        int numeroAleatorio = 1+generadorAleatorios.nextInt(99999);
-        String aleatorio = Integer.toString(numeroAleatorio);
-        Nfactura.setText("000"+aleatorio);*/
+                Nfactura.setText(txtresul);
+            }
+        } catch (Exception e) {
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -138,7 +137,6 @@ public class FacturaPrueba extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         TablaFactura = new javax.swing.JTable();
         txtCodigo = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
@@ -168,8 +166,6 @@ public class FacturaPrueba extends javax.swing.JFrame {
         Rif_Empresa = new javax.swing.JLabel();
         FECHA1 = new javax.swing.JLabel();
         HORA = new javax.swing.JLabel();
-        txtNombreProd = new javax.swing.JTextField();
-        jLabel20 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -199,17 +195,12 @@ public class FacturaPrueba extends javax.swing.JFrame {
 
         txtCodigo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         txtCodigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCodigoKeyPressed(evt);
             }
         });
-
-        jLabel10.setBackground(new java.awt.Color(204, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel10.setText("Codigo Producto:");
 
         jPanel4.setBackground(new java.awt.Color(0, 153, 204));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255))));
@@ -515,22 +506,6 @@ public class FacturaPrueba extends javax.swing.JFrame {
                 .addComponent(HORA, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        txtNombreProd.setEditable(false);
-        txtNombreProd.setBackground(new java.awt.Color(255, 255, 255));
-        txtNombreProd.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
-        txtNombreProd.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtNombreProd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtNombreProd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreProdActionPerformed(evt);
-            }
-        });
-
-        jLabel20.setBackground(new java.awt.Color(204, 255, 255));
-        jLabel20.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
-        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel20.setText("Descripcion:");
-
         btnAgregar.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
         btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Add.png"))); // NOI18N
         btnAgregar.setContentAreaFilled(false);
@@ -569,44 +544,32 @@ public class FacturaPrueba extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel20)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNombreProd)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtNombreProd, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel20)
-                        .addComponent(jLabel10)
-                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -626,17 +589,17 @@ public class FacturaPrueba extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyPressed
-//        switch (evt.getExtendedKeyCode()) {
-//            case KeyEvent.VK_ENTER:
-//            LlenarCampos();
-//            break;
-//            case KeyEvent.VK_F6:
-//            JOptionPane.showMessageDialog(this, "F6 Presionado");
-//            break;
-//            case KeyEvent.VK_F4:
-//            Fact_FormasPago obj = new Fact_FormasPago();
-//            obj.setVisible(true);
-//            break;
+        switch (evt.getExtendedKeyCode()) {
+            case KeyEvent.VK_ENTER:
+            LlenarCampos();
+            break;
+            case KeyEvent.VK_F6:
+            JOptionPane.showMessageDialog(this, "F6 Presionado");
+            break;
+            case KeyEvent.VK_F4:
+            Fact_FormasPago obj = new Fact_FormasPago();
+            obj.setVisible(true);
+            break;
 //            case KeyEvent.VK_F10:
 //            EliminarFactura();
 //            break;
@@ -644,7 +607,7 @@ public class FacturaPrueba extends javax.swing.JFrame {
 //            DatosClienteActual();
 //            default:
 //            break;
-//        }
+        }
     }//GEN-LAST:event_txtCodigoKeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -699,10 +662,6 @@ public class FacturaPrueba extends javax.swing.JFrame {
     private void jPanel1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyPressed
 
     }//GEN-LAST:event_jPanel1KeyPressed
-
-    private void txtNombreProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreProdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreProdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -759,7 +718,6 @@ public class FacturaPrueba extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -767,7 +725,6 @@ public class FacturaPrueba extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -778,6 +735,5 @@ public class FacturaPrueba extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtNombreProd;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,7 +16,7 @@ public class Fecha {
     
     public static String fecha(){
         Date fecha = new Date();
-        SimpleDateFormat formatofecha = new SimpleDateFormat("YYYY-MM-dd");
+        SimpleDateFormat formatofecha = new SimpleDateFormat("dd-MM-YYYY");
         return formatofecha.format(fecha);
     }
 }
