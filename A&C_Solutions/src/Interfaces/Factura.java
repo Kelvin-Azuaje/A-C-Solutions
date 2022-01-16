@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 
 
-public class Factura extends javax.swing.JFrame {
+public final class Factura extends javax.swing.JFrame {
     
     DefaultTableModel modelo1=  new DefaultTableModel();
     static Connection conexion;
@@ -48,6 +48,7 @@ public class Factura extends javax.swing.JFrame {
         modelo1.addColumn("PRECIO");
         modelo1.addColumn("TOTAL");
         this.TablaFactura.setModel(modelo1);
+        LimpiarDatos();
     }
     
 //******************************************************************************************************************************
@@ -214,9 +215,7 @@ public class Factura extends javax.swing.JFrame {
             if(resp == JOptionPane.YES_OPTION){
                 txtCodigo.requestFocus();
             }else if(resp == JOptionPane.NO_OPTION){
-                DatosCliente_Factura obj = new DatosCliente_Factura();
-                obj.setVisible(true);
-                dispose();
+                LimpiarDatos();
             }
             SumarColumnas();
         }else if (opcion == JOptionPane.NO_OPTION){
@@ -259,6 +258,14 @@ public class Factura extends javax.swing.JFrame {
         txtPrecio.setText("0.00");
         txtTotalProd.setText("0.00");
         txtIVA.setText("0.00");
+    }
+    
+    public void LimpiarDatos(){
+        CodClienteFact.setText("");
+        RifClientFact.setText("");
+        NombreClientFact.setText("");
+        TelefonoClientFact.setText("");
+        DirecClienteFact.setText("");
     }
     
     @SuppressWarnings("unchecked")

@@ -166,6 +166,9 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 DireClienteKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                DireClienteKeyTyped(evt);
+            }
         });
 
         NomCliente.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -174,6 +177,9 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
         NomCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 NomClienteKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                NomClienteKeyTyped(evt);
             }
         });
 
@@ -208,11 +214,13 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
 
         RifCliente.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         RifCliente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        RifCliente.setText("V");
         RifCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         RifCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 RifClienteKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                RifClienteKeyTyped(evt);
             }
         });
 
@@ -307,6 +315,33 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
             dispose();
         }
     }//GEN-LAST:event_DireClienteKeyPressed
+
+    private void RifClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RifClienteKeyTyped
+        char c = evt.getKeyChar();
+        if(Character.isLowerCase(c)){
+            String cad = (""+c).toUpperCase();
+            c = cad.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }//GEN-LAST:event_RifClienteKeyTyped
+
+    private void NomClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NomClienteKeyTyped
+        char c = evt.getKeyChar();
+        if(Character.isLowerCase(c)){
+            String cad = (""+c).toUpperCase();
+            c = cad.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }//GEN-LAST:event_NomClienteKeyTyped
+
+    private void DireClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DireClienteKeyTyped
+        char c = evt.getKeyChar();
+        if(Character.isLowerCase(c)){
+            String cad = (""+c).toUpperCase();
+            c = cad.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }//GEN-LAST:event_DireClienteKeyTyped
 
     /**
      * @param args the command line arguments
