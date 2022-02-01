@@ -15,7 +15,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -63,7 +62,6 @@ public class Conexion_BD {
         try{
             estatuto = conexion.createStatement();
             String sql = "INSERT INTO "+nombreTabla+" VALUES("+valores+")";
-            System.out.println(sql);
             estatuto.executeUpdate(sql);
             JOptionPane.showMessageDialog(null , "Datos Guardados con exito..!");
             

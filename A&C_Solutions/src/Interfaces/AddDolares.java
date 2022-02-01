@@ -130,6 +130,12 @@ public void Operacion(){
         Tt7.setText(cad2);
     }
     
+    public void PasarDolares(){
+        String dolares = Tt8.getText();
+        CuadreCaja.RcDolar.setText(dolares);
+        CuadreCaja.RcDolar.requestFocus();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -552,6 +558,8 @@ public void Operacion(){
         if(evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
             Op100$();
             Operacion();
+            PasarDolares();
+            dispose();
         }
     }//GEN-LAST:event_Cant7KeyPressed
 
@@ -608,7 +616,7 @@ public void Operacion(){
     private javax.swing.JTextField Tt5;
     private javax.swing.JTextField Tt6;
     private javax.swing.JTextField Tt7;
-    private javax.swing.JFormattedTextField Tt8;
+    public static javax.swing.JFormattedTextField Tt8;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

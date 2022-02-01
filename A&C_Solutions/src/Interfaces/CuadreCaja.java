@@ -43,7 +43,6 @@ public class CuadreCaja extends javax.swing.JFrame {
         DclBolivar.setText(string);
         DclCredito.setText(string);
         DclDebito.setText(string);
-        DclDolar.setText(string);
         DclEuro.setText(string);
         DclPM.setText(string);
         DclPesos.setText(string);
@@ -65,6 +64,7 @@ public class CuadreCaja extends javax.swing.JFrame {
         DifCredito.setText(string);
         DifPM.setText(string);
         DifTrans.setText(string);
+        DclDolar.setText(string);
     }
     
     public void DiferenciaB(){
@@ -83,7 +83,18 @@ public class CuadreCaja extends javax.swing.JFrame {
     }
     
     public void DiferenciaD(){
+        String cad1, cad2, cad3;
+        int ent1, ent2, ent3;
         
+        cad1 = RcDolar.getText();
+        ent1 = Integer.parseInt(cad1);
+        
+        cad2 = DclDolar.getText();
+        ent2 = Integer.parseInt(cad2);
+        
+        ent3 = ent1-ent2;
+        cad3 = Integer.toString(ent3);
+        DifDolar.setText(cad3);
     }
     
     public void DiferenciaE(){
@@ -210,7 +221,7 @@ public class CuadreCaja extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         FECHA = new javax.swing.JFormattedTextField();
         txt_Cajero = new javax.swing.JTextField();
-        Cbox_NCaja = new javax.swing.JComboBox<String>();
+        Cbox_NCaja = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jButton13 = new javax.swing.JButton();
         Fondo2 = new javax.swing.JPanel();
@@ -355,7 +366,7 @@ public class CuadreCaja extends javax.swing.JFrame {
         txt_Cajero.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         Cbox_NCaja.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
-        Cbox_NCaja.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "1", "2", "3", "4" }));
+        Cbox_NCaja.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "1", "2", "3", "4" }));
         Cbox_NCaja.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel5.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
@@ -439,7 +450,7 @@ public class CuadreCaja extends javax.swing.JFrame {
         DclDolar.setEditable(false);
         DclDolar.setBackground(new java.awt.Color(204, 204, 204));
         DclDolar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        DclDolar.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        DclDolar.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         DclDolar.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         DclDolar.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
 
@@ -452,6 +463,7 @@ public class CuadreCaja extends javax.swing.JFrame {
         DclBolivar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         DclBolivar.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         DclBolivar.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        DclBolivar.setText("0");
         DclBolivar.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N

@@ -49,11 +49,18 @@ public class AddBolivares extends javax.swing.JFrame {
         int ent1, ent2=10000, ent3;
         
         cad1 = Cant1.getText();
-        ent1 = Integer.parseInt(cad1);
-        
-        ent3 = ent1*ent2;
-        cad2 = Integer.toString(ent3);
-        Tt1.setText(cad2);
+        if(cad1.equals("")){
+            cad1 = "0";            
+            ent1 = Integer.parseInt(cad1);        
+            ent3 = ent1*ent2;
+            cad2 = Integer.toString(ent3);
+            Tt1.setText(cad2);
+        }else{
+            ent1 = Integer.parseInt(cad1);        
+            ent3 = ent1*ent2;
+            cad2 = Integer.toString(ent3);
+            Tt1.setText(cad2);
+        }
     }
     
     public void Op20000(){
@@ -114,6 +121,12 @@ public class AddBolivares extends javax.swing.JFrame {
         ent3 = ent1*ent2;
         cad2 = Integer.toString(ent3);
         Tt6.setText(cad2);
+    }
+    
+    public void PasarBolivares(){
+        String bolivares = Tt7.getText();
+        CuadreCaja.RcBolivar.setText(bolivares);
+        CuadreCaja.RcBolivar.requestFocus();
     }
     
     @SuppressWarnings("unchecked")
@@ -274,6 +287,7 @@ public class AddBolivares extends javax.swing.JFrame {
         Tt7.setEditable(false);
         Tt7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Tt7.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        Tt7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Tt7.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
 
         jLabel13.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
@@ -498,6 +512,8 @@ public class AddBolivares extends javax.swing.JFrame {
         if(evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
             Op1000000();
             Operacion();
+            PasarBolivares();
+            dispose();
         }
     }//GEN-LAST:event_Cant6KeyPressed
 
@@ -580,7 +596,7 @@ public class AddBolivares extends javax.swing.JFrame {
     private javax.swing.JTextField Tt4;
     private javax.swing.JTextField Tt5;
     private javax.swing.JTextField Tt6;
-    private javax.swing.JFormattedTextField Tt7;
+    public static javax.swing.JFormattedTextField Tt7;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;

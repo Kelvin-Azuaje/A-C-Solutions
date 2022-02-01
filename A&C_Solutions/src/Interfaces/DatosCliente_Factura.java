@@ -66,7 +66,7 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
     }
     public void TraerCliente(){
         String TomarRif = RifCliente.getText(), captura="";
-        String sql = "select * from clientes where RIF_CLIENTE = '"+TomarRif+"'";
+        String sql = "select * from d_clientes where RIF_CLIENTE = '"+TomarRif+"'";
         try {
             Statement st = cc.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -78,7 +78,7 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
                 Limpiar();
                 NomCliente.requestFocus();
             }else if(captura.equals(TomarRif)){
-                conex.setQuery("select * from clientes where RIF_CLIENTE = '"+TomarRif+"'");   
+                conex.setQuery("select * from d_clientes where RIF_CLIENTE = '"+TomarRif+"'");   
                 TraerDatosClientes equi = conex.getClaseTraerDatosClientes();
                 CodCliente.setText(equi.getCodigo());
                 NomCliente.setText(equi.getNombre());
@@ -294,24 +294,32 @@ public class DatosCliente_Factura extends javax.swing.JFrame {
     private void RifClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RifClienteKeyPressed
         if(evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
             TraerCliente();
+        }else if(evt.getExtendedKeyCode() == KeyEvent.VK_ESCAPE){
+            dispose();
         }
     }//GEN-LAST:event_RifClienteKeyPressed
 
     private void NomClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NomClienteKeyPressed
         if(evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
             TelCliente.requestFocus();
+        }else if(evt.getExtendedKeyCode() == KeyEvent.VK_ESCAPE){
+            dispose();
         }
     }//GEN-LAST:event_NomClienteKeyPressed
 
     private void TelClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TelClienteKeyPressed
         if(evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
             DireCliente.requestFocus();
+        }else if(evt.getExtendedKeyCode() == KeyEvent.VK_ESCAPE){
+            dispose();
         }
     }//GEN-LAST:event_TelClienteKeyPressed
 
     private void DireClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DireClienteKeyPressed
         if(evt.getExtendedKeyCode() == KeyEvent.VK_ENTER){
             PasarDatosFactura();
+            dispose();
+        }else if(evt.getExtendedKeyCode() == KeyEvent.VK_ESCAPE){
             dispose();
         }
     }//GEN-LAST:event_DireClienteKeyPressed
