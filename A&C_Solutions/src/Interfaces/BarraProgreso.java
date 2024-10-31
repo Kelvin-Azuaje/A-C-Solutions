@@ -5,8 +5,11 @@
  */
 package Interfaces;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Timer;
 
 /**
  *
@@ -14,33 +17,48 @@ import java.util.logging.Logger;
  */
 public class BarraProgreso extends javax.swing.JFrame {
 
-    /**
-     * Creates new form BarraProgreso
-     */
+    private Timer t;
+    private ActionListener ac;
+    int x = 0;
+    
     public BarraProgreso() {
         initComponents();
         setLocationRelativeTo(null);
         CargarBarra();
-        
     }
     
-
     public void CargarBarra(){
-        Thread hilo = new Thread(){
-            @Override
-            public void run(){
-                for (int i = 1; i <= 100; i++){
-                    try {
-                        sleep(10);
-                        Progress.setValue(i);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(BarraProgreso.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+        ac = (ActionEvent e) -> {
+            x = x + 1;
+            Progress.setValue(x);
+            if(Progress.getValue()==100){
+                Login obj  = new Login();
+                obj.setVisible(true);
+                dispose();
+                t.stop();
             }
         };
-        hilo.start();  
+        t = new Timer(10, ac);
+        t.start();
     }
+    
+//    public void CargarBarra(){
+//        Thread hilo = new Thread(){
+//            @Override
+//            public void run(){
+//                for (int i = 1; i <= 100; i++){
+//                    try {
+//                        sleep(10);
+//                        Progress.setValue(i);
+//                    } catch (InterruptedException ex) {
+//                        Logger.getLogger(BarraProgreso.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                }
+//            }
+//        };
+//        hilo.start();  
+//        Cargar();
+//    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
